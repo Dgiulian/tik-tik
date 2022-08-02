@@ -5,6 +5,9 @@ import Link from 'next/link';
 import GoogleLogin from 'react-google-login';
 import { AiFillHome, AiOutlineMenu } from 'react-icons/ai';
 import { ImCancelCircle } from 'react-icons/im';
+import Discover from './discover';
+import SuggestedAccounts from './suggested-accounts';
+import Footer from './footer';
 
 type Props = {};
 
@@ -58,6 +61,9 @@ const Sidebar = (props: Props) => {
                   cookiePolicy='single_host_origin'
                 />
               </div>
+              <Discover />
+              <SuggestedAccounts />
+              <Footer />
             </div>
           )}
         </div>
