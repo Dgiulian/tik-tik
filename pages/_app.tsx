@@ -3,13 +3,17 @@ import type { AppProps } from 'next/app';
 import useIsSSR from '../hooks/useIsSSR';
 import Navbar from '../components/navbar';
 import Sidebar from '../components/sidebar';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const isSSR = useIsSSR();
   if (isSSR) return null;
 
+  if (!process.env.NEXT_PUBLIC_OAUTH_TOKEN)
+    throw new Error('OAuth token not found');
+
   return (
-    <div>
+    <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_OAUTH_TOKEN}>
       <Navbar />
       <div className='flex gap-6 md:gap-20'>
         <div className='h-[92vh] overflow-hidden xl:hover:overflow-auto'>
@@ -19,7 +23,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
         </div>
       </div>
-    </div>
+    </GoogleOAuthProvider>
   );
 }
 
