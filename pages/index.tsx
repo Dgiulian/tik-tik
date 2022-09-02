@@ -18,7 +18,7 @@ const Home: NextPage<HomeProps> = ({ videos }) => {
       {videos.length ? (
         videos.map(video => <VideoCard key={video._id} video={video} />)
       ) : (
-        <NoResults text='No videos found' />
+        <NoResults text='No videos found' variant='post' />
       )}
     </div>
   );
