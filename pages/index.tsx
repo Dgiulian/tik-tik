@@ -24,11 +24,11 @@ const Home: NextPage<HomeProps> = ({ videos }) => {
 };
 
 export const getServerSideProps = async () => {
-  const URL = process.env.VERCEL_URL
+  const BASE_URL = process.env.VERCEL_URL
     ? process.env.VERCEL_URL
     : 'http://localhost:3001';
 
-  const { data } = await axios.get(`${URL}/api/post`);
+  const { data } = await axios.get(`${BASE_URL}/api/post`);
 
   return {
     props: {

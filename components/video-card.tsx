@@ -17,11 +17,12 @@ const VideoCard = ({ video }: Props) => {
   const [playing, setIsPlaying] = useState(false);
   const [isVideoMuted, setIsVideoMuted] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+
   useEffect(() => {
     if (videoRef?.current) {
       videoRef.current.muted = isVideoMuted;
     }
-  }, [isVideoMuted]);
+  }, [videoRef, isVideoMuted]);
 
   const onVideoPress = () => {
     if (playing) {
