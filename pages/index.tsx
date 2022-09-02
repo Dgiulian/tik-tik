@@ -6,6 +6,7 @@ import axios from 'axios';
 import type { Video } from '../types';
 import VideoCard from '../components/video-card';
 import NoResults from '../components/no-results';
+import { BASE_URL } from '@utils/index';
 
 interface HomeProps {
   videos: Video[];
@@ -24,10 +25,6 @@ const Home: NextPage<HomeProps> = ({ videos }) => {
 };
 
 export const getServerSideProps = async () => {
-  const BASE_URL = process.env.VERCEL_URL
-    ? process.env.VERCEL_URL
-    : 'http://localhost:3001';
-
   const { data } = await axios.get(`${BASE_URL}/api/post`);
 
   return {

@@ -14,6 +14,10 @@ import { BiFullscreen } from 'react-icons/bi';
 import { GiWhiteBook } from 'react-icons/gi';
 import { wrap } from 'module';
 import { ImSortAmountDesc } from 'react-icons/im';
+import { BASE_URL } from '@utils/index';
+import useAuthStore from 'store/auth';
+import LikeButton from 'components/like-button';
+import Comments from 'components/comments';
 
 const PostDetailPage = ({
   post: postDetail,
@@ -23,7 +27,7 @@ const PostDetailPage = ({
   const [isMuted, setIsMuted] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const router = useRouter();
-
+  const { userProfile }: any = useAuthStore();
   useEffect(() => {
     if (videoRef?.current) {
       videoRef.current.muted = isMuted;
@@ -40,6 +44,16 @@ const PostDetailPage = ({
       videoRef?.current?.play();
     }
     setIsPlaying(playing => !playing);
+  };
+  const handleLike = async (like: boolean) => {
+    if (userProfile) {
+      const res = await axios.put(`${BASE_URL}/api/like`, {
+        userId: userProfile._id,
+        postId: post._id,
+        like,
+      });
+      setPost({ ...post, likes: res.data.likes });
+    }
   };
   return (
     <div className='flex w-full absolute left-0 top-0 bg-white flex-wrap lg:flex-nowrap'>
@@ -80,6 +94,42 @@ const PostDetailPage = ({
               <HiVolumeUp className='text-white text-3xl lg:text-4xl' />
             </button>
           )}
+        </div>
+      </div>
+      <div className='relative w-[1000px] md:w-[900px] lg:w-[700px]'>
+        <div className='lg:mt-20 mt-10'>
+          <Link href={`/profile/${post.postedBy._id}`}>
+            <div className='flex gap-4 mb-4 bg-white w-full pl-10 cursor-pointer'>
+              <Image
+                width={60}
+                height={60}
+                alt='user-profile'
+                className='rounded-full'
+                src={post.postedBy.image}
+              />
+              <div>
+                <div className='text-xl font-bold lowercase tracking-wider flex gap-2 items-center justify-center'>
+                  {post.postedBy.userName.replace(/\s+/g, '')}{' '}
+                  <GoVerified className='text-blue-400 text-xl' />
+                </div>
+                <p className='text-md'> {post.postedBy.userName}</p>
+              </div>
+            </div>
+          </Link>
+          <div className='px-10'>
+            <p className=' text-md text-gray-600'>{post.caption}</p>
+          </div>
+          <div className='mt-10 px-10'>
+            {userProfile && (
+              <LikeButton
+                likes={post.likes}
+                flex='flex'
+                handleLike={() => handleLike(true)}
+                handleDislike={() => handleLike(false)}
+              />
+            )}
+          </div>
+          <Comments />
         </div>
       </div>
     </div>
