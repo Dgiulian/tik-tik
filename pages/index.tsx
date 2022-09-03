@@ -1,15 +1,13 @@
-import type { NextPage } from 'next';
-import Head from 'next/head';
-import Image from 'next/image';
-import styles from '../styles/Home.module.css';
-import axios from 'axios';
-import type { Video } from '../types';
-import VideoCard from '../components/video-card';
-import NoResults from '../components/no-results';
 import { BASE_URL } from '@utils/index';
+import axios from 'axios';
+import type { GetServerSideProps, NextPage } from 'next';
+import { ParsedUrlQuery } from 'querystring';
+import NoResults from '../components/no-results';
+import VideoCard from '../components/video-card';
+import type { Post } from 'types/shared';
 
 interface HomeProps {
-  videos: Video[];
+  videos: Post[];
 }
 
 const Home: NextPage<HomeProps> = ({ videos }) => {
@@ -24,9 +22,16 @@ const Home: NextPage<HomeProps> = ({ videos }) => {
   );
 };
 
-export const getServerSideProps = async () => {
-  const { data } = await axios.get(`${BASE_URL}/api/post`);
-
+interface ParamsProps extends ParsedUrlQuery {
+  topic?: string;
+}
+export const getServerSideProps: GetServerSideProps<
+  { videos: Post[] | null },
+  ParamsProps
+> = async ({ query }) => {
+  const { topic } = query ?? {};
+  let URL = topic ? `discover/${topic}` : 'post';
+  const { data } = await axios.get<Post[]>(`${BASE_URL}/api/${URL}`);
   return {
     props: {
       videos: data,
