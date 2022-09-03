@@ -1,13 +1,12 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from 'next';
 import { client } from '@utils/client';
 import {
   singleUserQuery,
   userCreatedPostsQuery,
   userLikedPostsQuery,
 } from '@utils/queries';
+import type { NextApiRequest, NextApiResponse } from 'next';
 import { User } from 'types/shared';
-import { uuid } from 'uuidv4';
 
 export default async function handler(
   req: NextApiRequest,

@@ -13,6 +13,7 @@ export type UserType = {
 export type UserStoreType = {
   userProfile: UserType | null;
   addUser: (user: any) => void;
+  allUsers: UserType[] | null;
   removeUser: () => void;
   fetchAllUsers: () => Promise<unknown>;
 };

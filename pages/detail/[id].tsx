@@ -72,7 +72,7 @@ const PostDetailPage = ({
               className='h-full cursor-pointer'
               loop
               onClick={onVideoClick}
-              src={post.video?.asset.src}
+              src={post.video?.asset.url}
             ></video>
           </div>
           <div className='absolute top-[45%] left-[45%] cursor-pointer'>
@@ -157,7 +157,6 @@ export const getServerSideProps: GetServerSideProps<
     return { props: { post: null } };
   }
   const { data } = await axios.get(`${BASE_URL}/api/post/${id}`);
-  console.log(data);
   return {
     props: { post: data },
   };
