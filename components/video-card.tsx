@@ -5,14 +5,13 @@ import { HiVolumeUp, HiVolumeOff } from 'react-icons/hi';
 import { BsFillPlayFill, BsFillPauseFill } from 'react-icons/bs';
 import { GoVerified } from 'react-icons/go';
 import { BsPlay } from 'react-icons/bs';
-
-import { Video } from '../types';
+import { Post as PostType } from 'types/shared';
 
 type Props = {
-  video: Video;
+  post: PostType;
 };
 
-const VideoCard = ({ video }: Props) => {
+const VideoCard = ({ post }: Props) => {
   const [isHover, setIsHover] = useState(false);
   const [playing, setIsPlaying] = useState(false);
   const [isVideoMuted, setIsVideoMuted] = useState(false);
@@ -39,13 +38,13 @@ const VideoCard = ({ video }: Props) => {
       <div>
         <div className='flex gap-3 p-2 cursor-pointer font-semibold rounded'>
           <div className='md:w-16 md:h-16 w-10 h-10'>
-            <Link href={`/profile/${video.postedBy?._id}`}>
+            <Link href={`/profile/${post.postedBy?._id}`}>
               <>
                 <Image
                   width={62}
                   height={62}
                   className=' rounded-full'
-                  src={video.postedBy?.image}
+                  src={post.postedBy?.image}
                   alt='user-profile'
                   layout='responsive'
                 />
@@ -53,19 +52,19 @@ const VideoCard = ({ video }: Props) => {
             </Link>
           </div>
           <div>
-            <Link href={`/profile/${video.postedBy?._id}`}>
+            <Link href={`/profile/${post.postedBy?._id}`}>
               <div className='flex items-center gap-2'>
                 <p className='flex gap-2 items-center md:text-md font-bold text-primary'>
-                  {video.postedBy.userName}{' '}
+                  {post.postedBy.userName}{' '}
                   <GoVerified className='text-blue-400 text-md' />
                 </p>
                 <p className='capitalize font-medium text-xs text-gray-500 hidden md:block'>
-                  {video.postedBy.userName}
+                  {post.postedBy.userName}
                 </p>
               </div>
             </Link>
-            <Link href={`/detail/${video._id}`}>
-              <p className='mt-2 font-normal '>{video.caption}</p>
+            <Link href={`/detail/${post._id}`}>
+              <p className='mt-2 font-normal '>{post.caption}</p>
             </Link>
           </div>
         </div>
@@ -80,7 +79,7 @@ const VideoCard = ({ video }: Props) => {
             <video
               loop
               ref={videoRef}
-              src={video.video?.asset.url}
+              src={post.video?.asset.url}
               className='lg:w-[600px] h-[300px] md:h-[400px] lg:h-[528px] w-[200px] rounded-2xl cursor-pointer bg-gray-100'
             ></video>
           </Link>

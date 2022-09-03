@@ -7,11 +7,16 @@ export type Comment = {
 export type Like = unknown;
 export type User = {
   _id: string;
-  image: string;
+  _type: string;
   userName: string;
+  image: string;
 };
-export type Video = { asset: { [k: string]: any } };
-
+export type Video = {
+  asset: {
+    _id: string;
+    url: string;
+  };
+};
 export type Post = {
   _id: string;
   caption: string;

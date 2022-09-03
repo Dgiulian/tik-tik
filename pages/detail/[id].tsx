@@ -56,7 +56,7 @@ const PostDetailPage = ({
       setPost({ ...post, likes: res.data.likes });
     }
   };
-
+  console.log(post);
   return (
     <div className='flex w-full absolute left-0 top-0 bg-white flex-wrap lg:flex-nowrap'>
       <div className='relative flex-2 w-[1000px] lg:w-9/12 flex justify-center items-center bg-blurred-img bg-no-repeat bg-cover bg-center'>
@@ -153,13 +153,10 @@ export const getServerSideProps: GetServerSideProps<
 > = async ({ params }) => {
   const { id } = params ?? {};
 
-  const URL = process.env.VERCEL_URL
-    ? process.env.VERCEL_URL
-    : 'http://localhost:3001';
   if (!id) {
     return { props: { post: null } };
   }
-  const { data } = await axios.get(`${URL}/api/post/${id}`);
+  const { data } = await axios.get(`${BASE_URL}/api/post/${id}`);
   console.log(data);
   return {
     props: { post: data },
